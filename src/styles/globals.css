@@ -1,0 +1,82 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-heading: "Playfair Display";
+  --font-body: "Inter";
+  --color-primary-gold: #d4af37;
+  --color-secondary-gold: #f2c94c;
+  --color-white: #ffffff;
+  --color-black: #101010;
+  --color-light-gray: #f5f5f5;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+  scroll-behavior: smooth;
+  background: #fff9ec;
+}
+
+body {
+  min-height: 100%;
+  margin: 0;
+  color: var(--color-black);
+  background: #fff9ec;
+  font-family: var(--font-body), Arial, sans-serif;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+::selection {
+  color: var(--color-black);
+  background: var(--color-secondary-gold);
+}
+
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-heading text-surface-black;
+  }
+
+  h1 {
+    @apply text-4xl font-semibold leading-tight md:text-5xl;
+  }
+
+  h2 {
+    @apply text-3xl font-semibold leading-tight;
+  }
+
+  h3 {
+    @apply text-2xl font-semibold leading-snug;
+  }
+
+  p {
+    @apply text-base leading-7 text-surface-muted;
+  }
+}
+
+@layer utilities {
+  .oil-sheen {
+    background:
+      radial-gradient(circle at 18% 20%, rgba(242, 201, 76, 0.5), transparent 24%),
+      linear-gradient(135deg, rgba(255, 249, 236, 0.98), rgba(255, 255, 255, 0.92));
+  }
+}
