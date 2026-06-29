@@ -30,6 +30,7 @@ export function ProductCard({ navigate, product }: ProductCardProps) {
         <img
           alt={`${product.name} bottle`}
           className="h-full w-full object-cover mix-blend-multiply"
+          loading="lazy"
           src={product.imageUrl}
         />
         <div className="absolute left-4 top-4 rounded-full bg-surface-white/90 px-3 py-1 text-xs font-bold uppercase tracking-[0.14em] text-gold-dark">

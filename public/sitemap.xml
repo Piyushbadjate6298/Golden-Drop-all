@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://goldendrop.example.com/</loc></url>
+  <url><loc>https://goldendrop.example.com/home</loc></url>
+  <url><loc>https://goldendrop.example.com/products</loc></url>
+  <url><loc>https://goldendrop.example.com/products/safflower-oil</loc></url>
+  <url><loc>https://goldendrop.example.com/products/sunflower-oil</loc></url>
+  <url><loc>https://goldendrop.example.com/products/groundnut-oil</loc></url>
+  <url><loc>https://goldendrop.example.com/cart</loc></url>
+  <url><loc>https://goldendrop.example.com/checkout</loc></url>
+  <url><loc>https://goldendrop.example.com/track-order</loc></url>
+  <url><loc>https://goldendrop.example.com/distributor</loc></url>
+  <url><loc>https://goldendrop.example.com/blog</loc></url>
+</urlset>

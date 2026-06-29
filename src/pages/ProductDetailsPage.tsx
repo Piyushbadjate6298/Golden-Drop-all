@@ -2,7 +2,8 @@ import { useMemo, useState } from "react";
 import { Check, ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Card, CardContent } from "@/components/ui/Card";
-import { getProductBySlug } from "@/models/products";
+import { Seo } from "@/components/seo/Seo";
+import { loadManagedProducts } from "@/services/localStore";
 import { addToCart } from "@/store/slices/cartSlice";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { formatCurrency } from "@/utils/formatCurrency";
@@ -15,7 +16,7 @@ type ProductDetailsPageProps = {
 
 export function ProductDetailsPage({ navigate, slug }: ProductDetailsPageProps) {
   const dispatch = useAppDispatch();
-  const product = getProductBySlug(slug);
+  const product = loadManagedProducts().find((item) => item.slug === slug);
   const [selectedVariantId, setSelectedVariantId] = useState(product?.variants[0]?.id);
 
   const selectedVariant = useMemo(
@@ -41,10 +42,30 @@ export function ProductDetailsPage({ navigate, slug }: ProductDetailsPageProps) 
 
   return (
     <div className="grid gap-8 pb-12 lg:grid-cols-[0.95fr_1.05fr]">
+      <Seo
+        description={product.shortDescription}
+        image={product.imageUrl.startsWith("http") ? product.imageUrl : undefined}
+        path={`/products/${product.slug}`}
+        schema={{
+          "@context": "https://schema.org",
+          "@type": "Product",
+          name: product.name,
+          description: product.description,
+          image: product.imageUrl,
+          offers: product.variants.map((variant) => ({
+            "@type": "Offer",
+            price: variant.price,
+            priceCurrency: "INR",
+            availability: variant.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock"
+          }))
+        }}
+        title={product.name}
+      />
       <div className={cn("overflow-hidden rounded-component bg-gradient-to-br", product.colorClass)}>
         <img
           alt={`${product.name} bottle`}
           className="h-full min-h-[420px] w-full object-cover mix-blend-multiply"
+          loading="lazy"
           src={product.imageUrl}
         />
       </div>

@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { CheckCircle } from "lucide-react";
 import { CheckoutForm } from "@/components/commerce/CheckoutForm";
+import { Seo } from "@/components/seo/Seo";
 import { Button } from "@/components/ui/Button";
-import { getProductById, getVariantById } from "@/models/products";
+import { loadManagedProducts } from "@/services/localStore";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import { clearCart } from "@/store/slices/cartSlice";
@@ -17,9 +18,10 @@ export function CheckoutPage({ navigate }: PageProps) {
   const [orderPlaced, setOrderPlaced] = useState(false);
   const dispatch = useAppDispatch();
   const lines = useAppSelector((state) => state.cart.lines);
+  const products = loadManagedProducts();
   const subtotal = lines.reduce((total, line) => {
-    const product = getProductById(line.productId);
-    const variant = product ? getVariantById(product, line.variantId) : undefined;
+    const product = products.find((item) => item.id === line.productId);
+    const variant = product?.variants.find((item) => item.id === line.variantId);
     return total + (variant ? variant.price * line.quantity : 0);
   }, 0);
 
@@ -31,6 +33,11 @@ export function CheckoutPage({ navigate }: PageProps) {
   if (orderPlaced) {
     return (
       <div className="mx-auto max-w-2xl pb-12 text-center">
+        <Seo
+          description="Golden Drop checkout confirmation and order request status."
+          path="/checkout"
+          title="Checkout Complete"
+        />
         <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-gold-pale">
           <CheckCircle className="h-8 w-8 text-harvest-olive" />
         </div>
@@ -48,6 +55,11 @@ export function CheckoutPage({ navigate }: PageProps) {
 
   return (
     <div className="grid gap-8 pb-12 lg:grid-cols-[1fr_360px]">
+      <Seo
+        description="Complete Golden Drop checkout with delivery details and payment summary."
+        path="/checkout"
+        title="Checkout"
+      />
       <div className="space-y-6">
         <div>
           <p className="text-sm font-semibold uppercase tracking-[0.18em] text-gold-dark">

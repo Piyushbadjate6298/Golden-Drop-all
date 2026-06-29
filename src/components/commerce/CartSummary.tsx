@@ -1,7 +1,7 @@
 import { Minus, Plus, ShoppingBag, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
-import { getProductById, getVariantById } from "@/models/products";
+import { loadManagedProducts } from "@/services/localStore";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import {
@@ -18,11 +18,12 @@ type CartSummaryProps = {
 export function CartSummary({ navigate }: CartSummaryProps) {
   const dispatch = useAppDispatch();
   const lines = useAppSelector((state) => state.cart.lines);
+  const products = loadManagedProducts();
 
   const hydratedLines = lines
     .map((line) => {
-      const product = getProductById(line.productId);
-      const variant = product ? getVariantById(product, line.variantId) : undefined;
+      const product = products.find((item) => item.id === line.productId);
+      const variant = product?.variants.find((item) => item.id === line.variantId);
 
       if (!product || !variant) {
         return null;

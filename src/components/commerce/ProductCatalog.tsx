@@ -1,11 +1,30 @@
+import { useEffect, useState } from "react";
 import { ProductCard } from "@/components/commerce/ProductCard";
-import { products } from "@/models/products";
+import type { Product } from "@/models/product";
+import { loadManagedProducts, productStoreEventName } from "@/services/localStore";
 
 type ProductCatalogProps = {
   navigate: (path: string) => void;
 };
 
 export function ProductCatalog({ navigate }: ProductCatalogProps) {
+  const [products, setProducts] = useState<Product[]>(() => loadManagedProducts());
+
+  useEffect(() => {
+    const refreshProducts = () => setProducts(loadManagedProducts());
+    window.addEventListener(productStoreEventName(), refreshProducts);
+    window.addEventListener("storage", refreshProducts);
+    window.addEventListener("focus", refreshProducts);
+    document.addEventListener("visibilitychange", refreshProducts);
+    refreshProducts();
+    return () => {
+      window.removeEventListener(productStoreEventName(), refreshProducts);
+      window.removeEventListener("storage", refreshProducts);
+      window.removeEventListener("focus", refreshProducts);
+      document.removeEventListener("visibilitychange", refreshProducts);
+    };
+  }, []);
+
   return (
     <section className="space-y-6" id="products">
       <div className="flex flex-col justify-between gap-3 md:flex-row md:items-end">
