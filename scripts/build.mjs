@@ -1,4 +1,6 @@
 import { spawnSync } from "node:child_process";
+import { copyFileSync, mkdirSync } from "node:fs";
+import { dirname } from "node:path";
 
 function run(command, args) {
   const result = spawnSync(command, args, {
@@ -18,3 +20,7 @@ function run(command, args) {
 
 run(process.execPath, ["./node_modules/typescript/lib/tsc.js", "--noEmit"]);
 run(process.execPath, ["./node_modules/vite/bin/vite.js", "build"]);
+
+const adminEntry = "dist/admin/index.html";
+mkdirSync(dirname(adminEntry), { recursive: true });
+copyFileSync("dist/index.html", adminEntry);
