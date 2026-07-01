@@ -5,6 +5,8 @@ import { LoginPage } from "@/pages/LoginPage";
 const AdminPage = lazy(() =>
   import("@/pages/AdminPage").then((module) => ({ default: module.AdminPage }))
 );
+
+
 const BlogPage = lazy(() =>
   import("@/pages/BlogPage").then((module) => ({ default: module.BlogPage }))
 );
@@ -53,21 +55,20 @@ export type Route =
 
 function getInitialPath() {
   const hashPath = window.location.hash.replace("#", "");
-  if (hashPath) {
-    return hashPath;
-  }
+  if (hashPath) return hashPath;
 
-  return window.location.pathname === "/admin" ? "/admin" : "/";
+  return window.location.pathname;
 }
 
 export function App() {
   const [path, setPath] = useState(getInitialPath);
 
+
   const navigate = (nextPath: string) => {
-    window.history.pushState(null, "", `#${nextPath}`);
-    setPath(nextPath);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
+  window.history.pushState(null, "", `#${nextPath}`);
+  setPath(nextPath);
+  window.scrollTo({ top: 0, behavior: "smooth" });
+};
 
   useEffect(() => {
     const handlePopState = () => setPath(getInitialPath());
