@@ -1,11 +1,18 @@
 {
-  "routes": [
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "rewrites": [
     {
-      "handle": "filesystem"
+      "source": "/admin",
+      "destination": "/admin/index.html"
     },
     {
-      "src": "/.*",
-      "dest": "/index.html"
+      "source": "/admin/",
+      "destination": "/admin/index.html"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 }
